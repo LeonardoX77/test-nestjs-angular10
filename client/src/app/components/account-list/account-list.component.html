@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row">
+    <h1>Leonardo Onieva test</h1>
+
+    <label *ngIf="accountService.loading">Loading...</label>
+
+    <!-- <ng-container *ngIf="(accountList$ | async) as accountList"> -->
+    <ng-container *ngIf="accountList">
+      <div class="dollar-rate-panel text-center mt-3 mb-3">
+        1BTC = ${{ ratesService.dollarRate }} (last update: {{ ratesService.lastUpdate | date:'HH:mm:ss' }} )
+      </div>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Account Name</th>
+            <th>Category</th>
+            <th>Tag</th>
+            <th>Balance</th>
+            <th>Available balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr [routerLink]="['/account/' + account.id]" *ngFor="let account of accountList.accounts"
+            [ngClass]="getBgColor(account)">
+            <td> {{ account.name }} </td>
+            <td> {{ account.category }} </td>
+            <td> {{ account.tag }} </td>
+            <td>
+              {{ account.balance | number : '1.4-4' }} BTC
+              <div>${{ account.balance | dollarRate | number : '1.4-4' }}</div>
+            </td>
+            <td>
+              {{ account.availableBalance | number : '1.4-4' }} BTC
+              <div>${{ account.availableBalance | dollarRate | number : '1.4-4' }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+
+  </div>
+</div>

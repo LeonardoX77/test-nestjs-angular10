@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+
+.dollar-rate-panel {
+  border: 1px grey solid;
+  width: 100%;
+  background-color: aqua;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}

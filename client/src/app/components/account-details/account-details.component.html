@@ -1,0 +1,61 @@
+<div class="container">
+  <label *ngIf="accountDetailsService.loading">Loading ...</label>
+
+  <div *ngIf="account">
+    <div class="dollar-rate-panel text-center mt-3 mb-3">
+      1BTC = ${{ ratesService.dollarRate }} (last update: {{ ratesService.lastUpdate | date:'HH:mm:ss' }} )
+    </div>
+
+    <div>
+      <h1>Account Details</h1>
+    </div>
+
+    <div>
+      <hr>
+      <label> {{ account.name }} </label>
+      <!-- in this case I pass ratesService.dollarRate to dollarRate pipe cause when new rate is coming it's not
+        being updated properly, even using markForCheck() or detectChanges() render strategies.
+        If I had more time I would investigate this... but passing the new rate as parameter does the trick ...
+      -->
+      <div class="balance">{{ account.balance | number : '1.4-4' }} BTC (${{ account.balance | dollarRate : ratesService.dollarRate | number : '1.4-4' }} )</div>
+      <hr>
+    </div>
+
+    <div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Confirmed date</th>
+            <th>Order ID</th>
+            <th>Order code</th>
+            <th>Transaction type</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trans of account.transactions"
+            [ngClass]="getBgColor(trans)">
+            <td> {{ trans.date | date: 'dd/MM/yyyy HH:mm:ss' }} </td>
+            <td> {{ trans.id }} </td>
+            <td> {{ trans.code }} </td>
+            <td> {{ trans.type }} </td>
+            <td>
+              {{ trans.debit | number : '1.4-4' }} BTC
+              <div>${{ trans.debit | dollarRate | number : '1.4-4' }}</div>
+            </td>
+            <td>
+              {{ trans.credit | number : '1.4-4' }} BTC
+              <div>${{ trans.credit | dollarRate | number : '1.4-4' }}</div>
+            </td>
+            <td>
+              {{ trans.balance | number : '1.4-4' }} BTC
+              <div>${{ trans.balance | dollarRate | number : '1.4-4' }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
